@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oishorzaw Khandakar // Ethical Hacker & Cybersecurity Specialist</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        mono: ['"Fira Code"', 'monospace'],
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            /* Default Tactical Green */
+            --primary: #00ff66;
+            --primary-rgb: 0, 255, 102;
+            --bg-dark: #080c0a;
+            --panel-bg: rgba(14, 23, 18, 0.75);
+            --border-color: rgba(0, 255, 102, 0.25);
+            --text-main: #e2fbe8;
+            --glow: rgba(0, 255, 102, 0.35);
+        }
+
+        body.theme-cyan {
+            --primary: #00f3ff;
+            --primary-rgb: 0, 243, 255;
+            --bg-dark: #060a12;
+            --panel-bg: rgba(12, 20, 32, 0.75);
+            --border-color: rgba(0, 243, 255, 0.25);
+            --text-main: #e0f8ff;
+            --glow: rgba(0, 243, 255, 0.35);
+        }
+
+        body.theme-amber {
+            --primary: #ffb000;
+            --primary-rgb: 255, 176, 0;
+            --bg-dark: #0c0a04;
+            --panel-bg: rgba(26, 20, 8, 0.75);
+            --border-color: rgba(255, 176, 0, 0.25);
+            --text-main: #fff8e6;
+            --glow: rgba(255, 176, 0, 0.35);
+        }
+
+        body.theme-crimson {
+            --primary: #ff2d55;
+            --primary-rgb: 255, 45, 85;
+            --bg-dark: #0d0406;
+            --panel-bg: rgba(28, 10, 16, 0.75);
+            --border-color: rgba(255, 45, 85, 0.25);
+            --text-main: #ffe6eb;
+            --glow: rgba(255, 45, 85, 0.35);
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+
+        .font-mono {
+            font-family: 'Fira Code', monospace;
+        }
+
+        .accent-color {
+            color: var(--primary);
+        }
+
+        .accent-bg {
+            background-color: var(--primary);
+        }
+
+        .accent-border {
+            border-color: var(--primary);
+        }
+
+        .glow-text {
+            text-shadow: 0 0 10px var(--glow);
+        }
+
+        .glass-panel {
+            background: var(--panel-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+        }
+
+        .glass-panel:hover {
+            border-color: var(--primary);
+            box-shadow: 0 0 20px var(--glow);
+        }
+
+        /* Slide Animation Logic */
+        .slide-page {
+            display: none;
+            opacity: 0;
+            transform: translateX(30px);
+            transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .slide-page.active {
+            display: block;
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Custom Scrollbars */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(var(--primary-rgb), 0.4);
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
+    </style>
+</head>
+<body class="theme-green min-h-screen relative flex flex-col justify-between overflow-x-hidden select-none">
+
+    <canvas id="bg-canvas" class="fixed inset-0 z-0 pointer-events-none opacity-40"></canvas>
+    <div class="fixed inset-0 z-0 pointer-events-none bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-black/40 to-black/90"></div>
+
+    <!-- MAIN CONTAINER -->
+    <div class="relative z-10 max-w-6xl mx-auto w-full px-4 sm:px-6 py-6 md:py-8 flex-1 flex flex-col justify-between min-h-screen">
+
+        <header class="mb-6 md:mb-8">
+            <nav class="glass-panel rounded-2xl p-4 flex flex-col lg:flex-row items-center justify-between gap-4">
+                
+                <!-- Identity Branding -->
+                <div class="flex items-center space-x-3.5 cursor-pointer" onclick="switchSection('summary')">
+                    <div class="w-10 h-10 rounded-xl bg-black/60 border border-[var(--primary)] flex items-center justify-center font-mono font-bold text-lg accent-color shadow-[0_0_12px_var(--glow)]">
+                        OK
+                    </div>
+                    <div>
+                        <div class="font-mono font-bold text-base tracking-wider text-white flex items-center gap-2">
+                            <span>Oishorzaw Khandakar</span>
+                            <span class="w-2 h-2 rounded-full bg-[var(--primary)] animate-ping"></span>
+                        </div>
+                        <div class="text-xs text-gray-400 font-mono">Ethical Hacker & VAPT Specialist</div>
+                    </div>
+                </div>
+
+                <!-- Nav Menu Links -->
+                <div class="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 text-xs font-mono">
+                    <button onclick="switchSection('summary')" data-target="summary" class="nav-btn px-3 py-2 rounded-lg hover:bg-[var(--primary)]/15 border border-transparent transition-all">
+                        01.Summary
+                    </button>
+                    <button onclick="switchSection('skills')" data-target="skills" class="nav-btn px-3 py-2 rounded-lg hover:bg-[var(--primary)]/15 border border-transparent transition-all">
+                        02.Skills & Tools
+                    </button>
+                    <button onclick="switchSection('projects')" data-target="projects" class="nav-btn px-3 py-2 rounded-lg hover:bg-[var(--primary)]/15 border border-transparent transition-all">
+                        03.Projects & Labs
+                    </button>
+                    <button onclick="switchSection('methodology')" data-target="methodology" class="nav-link nav-btn px-3 py-2 rounded-lg hover:bg-[var(--primary)]/15 border border-transparent transition-all">
+                        04.Methodology
+                    </button>
+                    <button onclick="switchSection('finding')" data-target="finding" class="nav-btn px-3 py-2 rounded-lg hover:bg-[var(--primary)]/15 border border-transparent transition-all">
+                        05.Sample Finding
+                    </button>
+                    <button onclick="switchSection('contact')" data-target="contact" class="nav-btn px-3 py-2 rounded-lg hover:bg-[var(--primary)]/15 border border-transparent transition-all">
+                        06.Contact
+                    </button>
+                </div>
+
+                <!-- Controls: Themes & Background FX -->
+                <div class="flex items-center gap-3 pt-2 lg:pt-0 border-t lg:border-t-0 border-white/10 w-full lg:w-auto justify-between lg:justify-start">
+                    
+                    <!-- Canvas Animation Toggle -->
+                    <div class="flex items-center space-x-1 bg-black/40 p-1 rounded-lg border border-white/10 text-[11px] font-mono">
+                        <button onclick="setBgFx('grid')" id="btn-fx-grid" title="Cyber Grid" class="px-2 py-1 rounded bg-[var(--primary)]/20 accent-color">Grid</button>
+                        <button onclick="setBgFx('particles')" id="btn-fx-particles" title="Constellation Particles" class="px-2 py-1 rounded text-gray-400 hover:text-white">Dust</button>
+                        <button onclick="setBgFx('radar')" id="btn-fx-radar" title="Tactical Radar Sweep" class="px-2 py-1 rounded text-gray-400 hover:text-white">Radar</button>
+                    </div>
+
+                    <!-- Theme Switcher Palette -->
+                    <div class="flex items-center space-x-2 pl-2 border-l border-white/10">
+                        <button onclick="setTheme('green')" title="Tactical Green" class="w-4 h-4 rounded-full bg-[#00ff66] hover:scale-125 transition-transform ring-2 ring-white/20"></button>
+                        <button onclick="setTheme('cyan')" title="Cyber Cyan" class="w-4 h-4 rounded-full bg-[#00f3ff] hover:scale-125 transition-transform ring-2 ring-white/20"></button>
+                        <button onclick="setTheme('amber')" title="Stealth Amber" class="w-4 h-4 rounded-full bg-[#ffb000] hover:scale-125 transition-transform ring-2 ring-white/20"></button>
+                        <button onclick="setTheme('crimson')" title="Crimson Defense" class="w-4 h-4 rounded-full bg-[#ff2d55] hover:scale-125 transition-transform ring-2 ring-white/20"></button>
+                    </div>
+
+                </div>
+
+            </nav>
+        </header>
+
+        <main class="flex-1 my-auto relative">
+
+            <!-- SECTION 1: SUMMARY & OVERVIEW -->
+            <section id="sec-summary" class="slide-page active glass-panel rounded-2xl p-6 sm:p-10">
+                <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-8">
+                    <div>
+                        <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-black/50 border border-[var(--primary)]/40 text-xs font-mono accent-color mb-3">
+                            <span class="w-2 h-2 rounded-full bg-[var(--primary)] animate-pulse"></span>
+                            SEC_OPS // AUTHORIZED ETHICAL HACKING
+                        </div>
+                        <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white mb-2">
+                            Oishorzaw Khandakar
+                        </h1>
+                        <p class="text-sm sm:text-lg font-mono accent-color font-medium glow-text">
+                            Ethical Hacker | Cybersecurity Enthusiast | VAPT Specialist
+                        </p>
+                    </div>
+
+                    <!-- Terminal Quick Stats -->
+                    <div class="w-full md:w-auto p-4 rounded-xl bg-black/60 border border-[var(--border-color)] font-mono text-xs space-y-1">
+                        <div class="text-gray-400">> <span class="text-white">LOCATION:</span> Bangladesh</div>
+                        <div class="text-gray-400">> <span class="text-white">SECURITY FOCUS:</span> Web & Network VAPT</div>
+                        <div class="text-gray-400">> <span class="text-white">STATUS:</span> Open for Audits & Labs</div>
+                    </div>
+                </div>
+
+                <div class="space-y-6 text-sm text-gray-300 leading-relaxed border-t border-white/10 pt-6">
+                    <div>
+                        <h3 class="text-xs font-mono uppercase tracking-wider text-gray-400 mb-2">// PROFESSIONAL SUMMARY</h3>
+                        <p class="text-base text-gray-200">
+                            I am an aspiring Ethical Hacker and Cybersecurity professional with a strong interest in identifying security vulnerabilities, analyzing network security, and helping organizations protect their digital assets.
+                        </p>
+                        <p class="mt-2">
+                            I focus on ethical and authorized security testing, vulnerability assessment, web application security, network security, and basic penetration testing. I continuously develop my technical skills through hands-on labs, cybersecurity projects, and practical security research.
+                        </p>
+                    </div>
+
+                    <!-- Career Objective Callout -->
+                    <div class="p-5 rounded-xl bg-black/50 border-l-4 border-[var(--primary)] border-y border-r border-[var(--border-color)]">
+                        <div class="font-mono text-xs accent-color mb-1 font-bold uppercase tracking-widest">// CAREER OBJECTIVE & PHILOSOPHY</div>
+                        <blockquote class="text-base sm:text-lg italic text-white font-medium">
+                            "Ethical Hacking is not about breaking systems. It is about finding weaknesses so they can be fixed before attackers exploit them."
+                        </blockquote>
+                        <p class="text-xs text-gray-400 mt-2 font-mono">
+                            Goal: To build a professional career in cybersecurity and ethical hacking while helping organizations understand, identify, and reduce their cybersecurity risks.
+                        </p>
+                    </div>
+
+                    <!-- Quick Action Controls -->
+                    <div class="flex flex-wrap items-center gap-4 pt-2">
+                        <a href="mailto:oishorzawkhandakar@gmail.com" class="px-5 py-3 rounded-xl bg-[var(--primary)] text-black font-bold font-mono text-xs hover:opacity-90 transition-all flex items-center space-x-2 shadow-[0_0_15px_var(--glow)]">
+                            <i class="fa-solid fa-paper-plane text-sm"></i>
+                            <span>INITIATE CONTACT</span>
+                        </a>
+
+                        <button onclick="copyEmail()" class="px-5 py-3 rounded-xl bg-black/50 border border-[var(--border-color)] text-xs font-mono hover:border-[var(--primary)] transition-all flex items-center space-x-2">
+                            <i class="fa-regular fa-copy accent-color"></i>
+                            <span id="copy-text">COPY EMAIL</span>
+                        </button>
+
+                        <a href="https://www.facebook.com/Oishorzaw.khandaker" target="_blank" rel="noopener noreferrer" class="px-5 py-3 rounded-xl bg-black/50 border border-[var(--border-color)] text-xs font-mono hover:border-[var(--primary)] transition-all flex items-center space-x-2">
+                            <i class="fa-brands fa-facebook accent-color"></i>
+                            <span>FACEBOOK PROFILE</span>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2: CORE SKILLS & TOOLS -->
+            <section id="sec-skills" class="slide-page glass-panel rounded-2xl p-6 sm:p-10">
+                <div class="flex items-center space-x-3 mb-8 pb-4 border-b border-white/10">
+                    <div class="w-10 h-10 rounded-xl bg-[var(--primary)]/10 border border-[var(--primary)] flex items-center justify-center accent-color">
+                        <i class="fa-solid fa-shield-halved text-xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-bold text-white tracking-tight">Core Skills & Security Arsenal</h2>
+                        <div class="text-xs font-mono text-gray-400">TECHNICAL CAPABILITIES AND OPERATIONAL TOOLKIT</div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    
+                    <!-- Core Skills Grid -->
+                    <div>
+                        <h3 class="text-sm font-mono text-white mb-4 flex items-center gap-2">
+                            <i class="fa-solid fa-crosshairs accent-color"></i>
+                            <span>CORE COMPETENCIES</span>
+                        </h3>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                            <div class="p-3.5 rounded-xl bg-black/40 border border-[var(--border-color)] flex items-center space-x-3">
+                                <i class="fa-solid fa-bug accent-color text-base"></i>
+                                <span>Ethical Hacking</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-black/40 border border-[var(--border-color)] flex items-center space-x-3">
+                                <i class="fa-solid fa-magnifying-glass-chart accent-color text-base"></i>
+                                <span>Vulnerability Assessment</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-black/40 border border-[var(--border-color)] flex items-center space-x-3">
+                                <i class="fa-solid fa-terminal accent-color text-base"></i>
+                                <span>Penetration Testing</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-black/40 border border-[var(--border-color)] flex items-center space-x-3">
+                                <i class="fa-solid fa-globe accent-color text-base"></i>
+                                <span>Web Application Security</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-black/40 border border-[var(--border-color)] flex items-center space-x-3">
+                                <i class="fa-solid fa-network-wired accent-color text-base"></i>
+                                <span>Network Security</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-black/40 border border-[var(--border-color)] flex items-center space-x-3">
+                                <i class="fa-brands fa-linux accent-color text-base"></i>
+                                <span>Linux & Windows Security</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-black/40 border border-[var(--border-color)] flex items-center space-x-3">
+                                <i class="fa-solid fa-user-secret accent-color text-base"></i>
+                                <span>OSINT & Web Research</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-black/40 border border-[var(--border-color)] flex items-center space-x-3">
+                                <i class="fa-solid fa-radar accent-color text-base"></i>
+                                <span>Network Scanning & Recon</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-black/40 border border-[var(--border-color)] flex items-center space-x-3">
+                                <i class="fa-solid fa-microscope accent-color text-base"></i>
+                                <span>Digital Forensics Basics</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-black/40 border border-[var(--border-color)] flex items-center space-x-3">
+                                <i class="fa-solid fa-triangle-exclamation accent-color text-base"></i>
+                                <span>Security Risk Analysis</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-black/40 border border-[var(--border-color)] flex items-center space-x-3">
+                                <i class="fa-solid fa-file-contract accent-color text-base"></i>
+                                <span>Documentation & Reporting</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-black/40 border border-[var(--border-color)] flex items-center space-x-3">
+                                <i class="fa-solid fa-code-commit accent-color text-base"></i>
+                                <span>Python & Shell Scripting</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tools & Technologies Categorized -->
+                    <div class="space-y-6">
+                        <h3 class="text-sm font-mono text-white flex items-center gap-2">
+                            <i class="fa-solid fa-toolbox accent-color"></i>
+                            <span>TOOLS & TECHNOLOGIES</span>
+                        </h3>
+
+                        <!-- OS -->
+                        <div class="p-4 rounded-xl bg-black/50 border border-[var(--border-color)]">
+                            <div class="text-xs font-mono text-gray-400 mb-2">OPERATING SYSTEMS</div>
+                            <div class="flex flex-wrap gap-2 text-xs font-mono">
+                                <span class="px-3 py-1.5 rounded-lg bg-[var(--primary)]/10 border border-[var(--primary)]/30 text-white">Kali Linux</span>
+                                <span class="px-3 py-1.5 rounded-lg bg-[var(--primary)]/10 border border-[var(--primary)]/30 text-white">Ubuntu Linux</span>
+                                <span class="px-3 py-1.5 rounded-lg bg-[var(--primary)]/10 border border-[var(--primary)]/30 text-white">Windows Server / Enterprise</span>
+                            </div>
+                        </div>
+
+                        <!-- Security Tools -->
+                        <div class="p-4 rounded-xl bg-black/50 border border-[var(--border-color)]">
+                            <div class="text-xs font-mono text-gray-400 mb-2">SECURITY & AUDIT SUITE</div>
+                            <div class="flex flex-wrap gap-2 text-xs font-mono">
+                                <span class="px-2.5 py-1 rounded bg-black/60 border border-white/10 accent-color">Nmap</span>
+                                <span class="px-2.5 py-1 rounded bg-black/60 border border-white/10 accent-color">Wireshark</span>
+                                <span class="px-2.5 py-1 rounded bg-black/60 border border-white/10 accent-color">Burp Suite</span>
+                                <span class="px-2.5 py-1 rounded bg-black/60 border border-white/10 accent-color">Metasploit</span>
+                                <span class="px-2.5 py-1 rounded bg-black/60 border border-white/10 accent-color">Nikto</span>
+                                <span class="px-2.5 py-1 rounded bg-black/60 border border-white/10 accent-color">Gobuster</span>
+                                <span class="px-2.5 py-1 rounded bg-black/60 border border-white/10 accent-color">John the Ripper</span>
+                                <span class="px-2.5 py-1 rounded bg-black/60 border border-white/10 accent-color">Hydra</span>
+                            </div>
+                        </div>
+
+                        <!-- Other Tech -->
+                        <div class="p-4 rounded-xl bg-black/50 border border-[var(--border-color)]">
+                            <div class="text-xs font-mono text-gray-400 mb-2">NETWORK & INFRASTRUCTURE PROTOCOLS</div>
+                            <div class="flex flex-wrap gap-2 text-xs font-mono">
+                                <span class="px-2.5 py-1 rounded bg-black/60 border border-white/10 text-gray-300">TCP/IP</span>
+                                <span class="px-2.5 py-1 rounded bg-black/60 border border-white/10 text-gray-300">DNS</span>
+                                <span class="px-2.5 py-1 rounded bg-black/60 border border-white/10 text-gray-300">HTTP / HTTPS</span>
+                                <span class="px-2.5 py-1 rounded bg-black/60 border border-white/10 text-gray-300">VPN & Firewalls</span>
+                                <span class="px-2.5 py-1 rounded bg-black/60 border border-white/10 text-gray-300">Basic Python</span>
+                                <span class="px-2.5 py-1 rounded bg-black/60 border border-white/10 text-gray-300">Linux CLI</span>
+                                <span class="px-2.5 py-1 rounded bg-black/60 border border-white/10 text-gray-300">Git / GitHub</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- SECTION 3: FEATURED PROJECTS -->
+            <section id="sec-projects" class="slide-page glass-panel rounded-2xl p-6 sm:p-10">
+                <div class="flex items-center space-x-3 mb-8 pb-4 border-b border-white/10">
+                    <div class="w-10 h-10 rounded-xl bg-[var(--primary)]/10 border border-[var(--primary)] flex items-center justify-center accent-color">
+                        <i class="fa-solid fa-folder-open text-xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-bold text-white tracking-tight">Featured Cybersecurity Projects</h2>
+                        <div class="text-xs font-mono text-gray-400">AUTHORIZED AUDITS, PRACTICAL LABS & SECURITY ASSESSMENTS</div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                    <!-- Project 01 -->
+                    <div class="p-6 rounded-xl bg-black/50 border border-[var(--border-color)] hover:border-[var(--primary)] transition-all flex flex-col justify-between group">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-xs font-mono accent-color font-bold">PROJECT // 01</span>
+                                <span class="px-2 py-0.5 rounded bg-[var(--primary)]/10 text-[10px] font-mono accent-color border border-[var(--primary)]/30">Network Audit</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-white mb-2 group-hover:text-[var(--primary)] transition-colors">
+                                Network Vulnerability Assessment
+                            </h3>
+                            <p class="text-xs text-gray-400 mb-4 font-mono">
+                                <strong class="text-gray-200">Objective:</strong> Identify exposed services and potential security weaknesses within an authorized test network.
+                            </p>
+                            
+                            <div class="space-y-1.5 text-xs text-gray-300 mb-4">
+                                <div class="font-mono text-[11px] text-gray-400 uppercase">// Key Activities:</div>
+                                <ul class="list-disc list-inside space-y-1 pl-1 text-gray-300">
+                                    <li>Network reconnaissance & host discovery</li>
+                                    <li>Port and active service enumeration</li>
+                                    <li>Vulnerability identification & risk rating</li>
+                                    <li>Executive mitigation report preparation</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="pt-4 border-t border-white/10 flex items-center justify-between text-xs font-mono">
+                            <span class="text-gray-400">Tools: Nmap, Wireshark, Kali</span>
+                            <span class="accent-color">Completed</span>
+                        </div>
+                    </div>
+
+                    <!-- Project 02 -->
+                    <div class="p-6 rounded-xl bg-black/50 border border-[var(--border-color)] hover:border-[var(--primary)] transition-all flex flex-col justify-between group">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-xs font-mono accent-color font-bold">PROJECT // 02</span>
+                                <span class="px-2 py-0.5 rounded bg-[var(--primary)]/10 text-[10px] font-mono accent-color border border-[var(--primary)]/30">Web VAPT</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-white mb-2 group-hover:text-[var(--primary)] transition-colors">
+                                Web Application Security Testing
+                            </h3>
+                            <p class="text-xs text-gray-400 mb-4 font-mono">
+                                <strong class="text-gray-200">Objective:</strong> Assess a deliberately vulnerable web application in a legal laboratory environment.
+                            </p>
+                            
+                            <div class="space-y-1.5 text-xs text-gray-300 mb-4">
+                                <div class="font-mono text-[11px] text-gray-400 uppercase">// Key Activities:</div>
+                                <ul class="list-disc list-inside space-y-1 pl-1 text-gray-300">
+                                    <li>Application recon & endpoint crawling</li>
+                                    <li>HTTP traffic interception & manipulation</li>
+                                    <li>Input validation & auth bypass testing</li>
+                                    <li>Detailed remediation documentation</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="pt-4 border-t border-white/10 flex items-center justify-between text-xs font-mono">
+                            <span class="text-gray-400">Tools: Burp Suite, OWASP, Kali</span>
+                            <span class="accent-color">Completed</span>
+                        </div>
+                    </div>
+
+                    <!-- Project 03 -->
+                    <div class="p-6 rounded-xl bg-black/50 border border-[var(--border-color)] hover:border-[var(--primary)] transition-all flex flex-col justify-between group">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-xs font-mono accent-color font-bold">PROJECT // 03</span>
+                                <span class="px-2 py-0.5 rounded bg-[var(--primary)]/10 text-[10px] font-mono accent-color border border-[var(--primary)]/30">Wireless / Infra</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-white mb-2 group-hover:text-[var(--primary)] transition-colors">
+                                Wi-Fi & Network Security Lab
+                            </h3>
+                            <p class="text-xs text-gray-400 mb-4 font-mono">
+                                <strong class="text-gray-200">Objective:</strong> Study wireless and network security concepts in an authorized laboratory environment.
+                            </p>
+                            
+                            <div class="space-y-1.5 text-xs text-gray-300 mb-4">
+                                <div class="font-mono text-[11px] text-gray-400 uppercase">// Key Activities:</div>
+                                <ul class="list-disc list-inside space-y-1 pl-1 text-gray-300">
+                                    <li>Wireless network discovery & packet capture</li>
+                                    <li>Protocol analysis & handshake inspection</li>
+                                    <li>Security configuration review & hardening</li>
+                                    <li>Defensive perimeter recommendations</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="pt-4 border-t border-white/10 flex items-center justify-between text-xs font-mono">
+                            <span class="text-gray-400">Tools: Wireshark, Nmap, Kali</span>
+                            <span class="accent-color">Completed</span>
+                        </div>
+                    </div>
+
+                    <!-- Project 04 -->
+                    <div class="p-6 rounded-xl bg-black/50 border border-[var(--border-color)] hover:border-[var(--primary)] transition-all flex flex-col justify-between group">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-xs font-mono accent-color font-bold">PROJECT // 04</span>
+                                <span class="px-2 py-0.5 rounded bg-[var(--primary)]/10 text-[10px] font-mono accent-color border border-[var(--primary)]/30">Hardening</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-white mb-2 group-hover:text-[var(--primary)] transition-colors">
+                                Linux System Hardening Lab
+                            </h3>
+                            <p class="text-xs text-gray-400 mb-4 font-mono">
+                                <strong class="text-gray-200">Objective:</strong> Practice Linux system security and hardening techniques on server instances.
+                            </p>
+                            
+                            <div class="space-y-1.5 text-xs text-gray-300 mb-4">
+                                <div class="font-mono text-[11px] text-gray-400 uppercase">// Key Activities:</div>
+                                <ul class="list-disc list-inside space-y-1 pl-1 text-gray-300">
+                                    <li>User permission & SUID bit audit</li>
+                                    <li>UFW firewall configuration & log review</li>
+                                    <li>SSH key authentication enforcement</li>
+                                    <li>Linux hardening compliance checklist</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="pt-4 border-t border-white/10 flex items-center justify-between text-xs font-mono">
+                            <span class="text-gray-400">Tools: Linux, Bash, UFW, Syslog</span>
+                            <span class="accent-color">Completed</span>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- SECTION 4: SECURITY METHODOLOGY -->
+            <section id="sec-methodology" class="slide-page glass-panel rounded-2xl p-6 sm:p-10">
+                <div class="flex items-center space-x-3 mb-8 pb-4 border-b border-white/10">
+                    <div class="w-10 h-10 rounded-xl bg-[var(--primary)]/10 border border-[var(--primary)] flex items-center justify-center accent-color">
+                        <i class="fa-solid fa-list-check text-xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-bold text-white tracking-tight">Structured Security Methodology</h2>
+                        <div class="text-xs font-mono text-gray-400">AUTHORIZED 8-STEP PROFESSIONAL AUDIT PIPELINE</div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs font-mono">
+                    
+                    <div class="p-4 rounded-xl bg-black/50 border border-[var(--border-color)] relative">
+                        <div class="text-lg font-bold accent-color mb-1">01</div>
+                        <div class="font-bold text-white mb-1">Reconnaissance</div>
+                        <p class="text-gray-400 text-[11px]">Passive & active OSINT information gathering within legal scope.</p>
+                    </div>
+
+                    <div class="p-4 rounded-xl bg-black/50 border border-[var(--border-color)] relative">
+                        <div class="text-lg font-bold accent-color mb-1">02</div>
+                        <div class="font-bold text-white mb-1">Scanning & Enumeration</div>
+                        <p class="text-gray-400 text-[11px]">Port discovery, service versioning, and endpoint mapping.</p>
+                    </div>
+
+                    <div class="p-4 rounded-xl bg-black/50 border border-[var(--border-color)] relative">
+                        <div class="text-lg font-bold accent-color mb-1">03</div>
+                        <div class="font-bold text-white mb-1">Vulnerability Assessment</div>
+                        <p class="text-gray-400 text-[11px]">Correlating identified assets with known vulnerability databases.</p>
+                    </div>
+
+                    <div class="p-4 rounded-xl bg-black/50 border border-[var(--border-color)] relative">
+                        <div class="text-lg font-bold accent-color mb-1">04</div>
+                        <div class="font-bold text-white mb-1">Controlled Security Testing</div>
+                        <p class="text-gray-400 text-[11px]">Executing safe verification proofs to confirm exploitability.</p>
+                    </div>
+
+                    <div class="p-4 rounded-xl bg-black/50 border border-[var(--border-color)] relative">
+                        <div class="text-lg font-bold accent-color mb-1">05</div>
+                        <div class="font-bold text-white mb-1">Evidence Collection</div>
+                        <p class="text-gray-400 text-[11px]">Documenting request/response logs, screenshots, and payloads.</p>
+                    </div>
+
+                    <div class="p-4 rounded-xl bg-black/50 border border-[var(--border-color)] relative">
+                        <div class="text-lg font-bold accent-color mb-1">06</div>
+                        <div class="font-bold text-white mb-1">Risk Analysis</div>
+                        <p class="text-gray-400 text-[11px]">Evaluating business impact, severity level, and likelihood.</p>
+                    </div>
+
+                    <div class="p-4 rounded-xl bg-black/50 border border-[var(--border-color)] relative">
+                        <div class="text-lg font-bold accent-color mb-1">07</div>
+                        <div class="font-bold text-white mb-1">Remediation Steps</div>
+                        <p class="text-gray-400 text-[11px]">Crafting tailored mitigation guidance and configuration fixes.</p>
+                    </div>
+
+                    <div class="p-4 rounded-xl bg-black/50 border border-[var(--border-color)] relative">
+                        <div class="text-lg font-bold accent-color mb-1">08</div>
+                        <div class="font-bold text-white mb-1">Final Security Report</div>
+                        <p class="text-gray-400 text-[11px]">Delivering clear executive summaries and technical details.</p>
+                    </div>
+
+                </div>
+
+                <div class="mt-8 p-4 rounded-xl bg-black/60 border border-[var(--border-color)] text-xs text-center font-mono text-gray-300">
+                    <i class="fa-solid fa-triangle-exclamation accent-color mr-2"></i>
+                    <span>All testing is strictly performed only with proper written authorization and defined legal scope.</span>
+                </div>
+            </section>
+
+            <!-- SECTION 5: SAMPLE SECURITY FINDING -->
+            <section id="sec-finding" class="slide-page glass-panel rounded-2xl p-6 sm:p-10">
+                <div class="flex items-center justify-between mb-8 pb-4 border-b border-white/10">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-xl bg-[var(--primary)]/10 border border-[var(--primary)] flex items-center justify-center accent-color">
+                            <i class="fa-solid fa-file-waveform text-xl"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-bold text-white tracking-tight">Sample Security Finding</h2>
+                            <div class="text-xs font-mono text-gray-400">STRUCTURED AUDIT REPORT CARD EXAMPLE</div>
+                        </div>
+                    </div>
+
+                    <button onclick="openModal()" class="hidden sm:flex px-4 py-2 rounded-lg bg-[var(--primary)] text-black font-mono font-bold text-xs hover:opacity-90 transition-all items-center space-x-2">
+                        <i class="fa-solid fa-expand"></i>
+                        <span>FULL REPORT MODAL</span>
+                    </button>
+                </div>
+
+                <!-- Finding Preview Card -->
+                <div class="p-6 rounded-xl bg-black/60 border border-[var(--border-color)] space-y-4 font-mono text-xs">
+                    
+                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-4">
+                        <div>
+                            <span class="text-gray-400">FINDING TITLE:</span>
+                            <span class="text-white font-bold text-sm ml-2">Exposed Unnecessary Network Service</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="px-2.5 py-1 rounded bg-amber-500/20 text-amber-400 border border-amber-500/40 font-bold">SEVERITY: MEDIUM</span>
+                            <span class="px-2.5 py-1 rounded bg-[var(--primary)]/10 accent-color border border-[var(--primary)]/30">STATUS: OPEN</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <div class="text-gray-400 mb-1">// DESCRIPTION:</div>
+                            <p class="text-gray-200 leading-relaxed">
+                                A legacy management service was found exposed on an externally facing port during authorized network port scanning.
+                            </p>
+                        </div>
+                        <div>
+                            <div class="text-gray-400 mb-1">// POTENTIAL RISK:</div>
+                            <p class="text-gray-200 leading-relaxed">
+                                Unnecessarily exposed services increase the attack surface, allowing potential unauthorized reconnaissance or brute-force attempts.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="text-gray-400 mb-1">// EVIDENCE LOG:</div>
+                        <div class="p-3 rounded bg-black/80 border border-white/10 font-mono text-[11px] text-gray-300">
+                            PORT     STATE SERVICE VERSION<br>
+                            8080/tcp open  http    Apache Tomcat/8.5.31 (Legacy)
+                        </div>
+                    </div>
+
+                    <div class="pt-2">
+                        <div class="text-gray-400 mb-1">// RECOMMENDATION:</div>
+                        <p class="text-gray-200 leading-relaxed">
+                            Disable unnecessary services and restrict access to management interfaces using UFW/firewall rules to trusted IP addresses only.
+                        </p>
+                    </div>
+
+                    <div class="pt-2 text-right">
+                        <button onclick="openModal()" class="sm:hidden w-full py-2 rounded bg-[var(--primary)] text-black font-bold">
+                            VIEW DETAILED REPORT
+                        </button>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- SECTION 6: SERVICES & CONTACT -->
+            <section id="sec-contact" class="slide-page glass-panel rounded-2xl p-6 sm:p-10">
+                <div class="flex items-center space-x-3 mb-8 pb-4 border-b border-white/10">
+                    <div class="w-10 h-10 rounded-xl bg-[var(--primary)]/10 border border-[var(--primary)] flex items-center justify-center accent-color">
+                        <i class="fa-solid fa-headset text-xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-bold text-white tracking-tight">Services & Direct Transmission</h2>
+                        <div class="text-xs font-mono text-gray-400">WHAT I OFFER & AUTHORIZED ENGAGEMENTS</div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    
+                    <!-- What I Offer -->
+                    <div>
+                        <h3 class="text-sm font-mono text-white mb-4 flex items-center gap-2">
+                            <i class="fa-solid fa-list-check accent-color"></i>
+                            <span>WHAT I CAN OFFER</span>
+                        </h3>
+
+                        <div class="grid grid-cols-1 gap-2.5 text-xs">
+                            <div class="p-3 rounded-xl bg-black/40 border border-[var(--border-color)] flex items-center space-x-3">
+                                <i class="fa-solid fa-circle-check accent-color"></i>
+                                <span>Network Vulnerability Assessment</span>
+                            </div>
+                            <div class="p-3 rounded-xl bg-black/40 border border-[var(--border-color)] flex items-center space-x-3">
+                                <i class="fa-solid fa-circle-check accent-color"></i>
+                                <span>Web Application Security Auditing</span>
+                            </div>
+                            <div class="p-3 rounded-xl bg-black/40 border border-[var(--border-color)] flex items-center space-x-3">
+                                <i class="fa-solid fa-circle-check accent-color"></i>
+                                <span>Basic Penetration Testing & Recon</span>
+                            </div>
+                            <div class="p-3 rounded-xl bg-black/40 border border-[var(--border-color)] flex items-center space-x-3">
+                                <i class="fa-solid fa-circle-check accent-color"></i>
+                                <span>OSINT & Web Footprinting</span>
+                            </div>
+                            <div class="p-3 rounded-xl bg-black/40 border border-[var(--border-color)] flex items-center space-x-3">
+                                <i class="fa-solid fa-circle-check accent-color"></i>
+                                <span>Linux Hardening & Security Checks</span>
+                            </div>
+                            <div class="p-3 rounded-xl bg-black/40 border border-[var(--border-color)] flex items-center space-x-3">
+                                <i class="fa-solid fa-circle-check accent-color"></i>
+                                <span>Professional Vulnerability Reporting</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Direct Transmission & Social -->
+                    <div class="space-y-4">
+                        <h3 class="text-sm font-mono text-white flex items-center gap-2">
+                            <i class="fa-solid fa-paper-plane accent-color"></i>
+                            <span>DIRECT CHANNELS</span>
+                        </h3>
+
+                        <!-- Email Card -->
+                        <a href="mailto:oishorzawkhandakar@gmail.com" class="p-4 rounded-xl bg-black/50 border border-[var(--border-color)] hover:border-[var(--primary)] transition-all flex items-center justify-between group block">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 rounded-lg bg-[var(--primary)]/10 border border-[var(--primary)] flex items-center justify-center accent-color">
+                                    <i class="fa-solid fa-envelope text-lg"></i>
+                                </div>
+                                <div>
+                                    <div class="text-[10px] font-mono text-gray-400">EMAIL ADDRESS</div>
+                                    <div class="font-mono text-xs sm:text-sm font-bold text-white group-hover:text-[var(--primary)]">oishorzawkhandakar@gmail.com</div>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-arrow-right accent-color"></i>
+                        </a>
+
+                        <!-- Facebook Card -->
+                        <a href="https://www.facebook.com/Oishorzaw.khandaker" target="_blank" rel="noopener noreferrer" class="p-4 rounded-xl bg-black/50 border border-[var(--border-color)] hover:border-[var(--primary)] transition-all flex items-center justify-between group block">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 rounded-lg bg-[var(--primary)]/10 border border-[var(--primary)] flex items-center justify-center accent-color">
+                                    <i class="fa-brands fa-facebook text-lg"></i>
+                                </div>
+                                <div>
+                                    <div class="text-[10px] font-mono text-gray-400">FACEBOOK PROFILE</div>
+                                    <div class="font-mono text-xs sm:text-sm font-bold text-white group-hover:text-[var(--primary)]">Oishorzaw Khandaker</div>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-arrow-up-right-from-square accent-color"></i>
+                        </a>
+
+                        <!-- Professional Guarantees -->
+                        <div class="p-4 rounded-xl bg-black/60 border border-[var(--border-color)] text-xs font-mono space-y-1 text-gray-300">
+                            <div class="text-[11px] accent-color font-bold mb-2">// PROFESSIONAL APPROACH:</div>
+                            <div>✓ Legal and authorized testing only</div>
+                            <div>✓ Full client confidentiality</div>
+                            <div>✓ Clear & actionable mitigation steps</div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </section>
+
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="mt-8 pt-4 border-t border-white/10 text-center text-xs font-mono text-gray-500 flex flex-col sm:flex-row items-center justify-between gap-2">
+            <div>
+                © 2026 <span class="text-gray-300">Oishorzaw Khandakar</span>. All security audits performed legally.
+            </div>
+            <div class="flex items-center space-x-4 text-gray-400">
+                <a href="mailto:oishorzawkhandakar@gmail.com" class="hover:text-[var(--primary)] transition-colors">Email</a>
+                <span>•</span>
+                <a href="https://www.facebook.com/Oishorzaw.khandaker" target="_blank" class="hover:text-[var(--primary)] transition-colors">Facebook</a>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- MODAL: SAMPLE FINDING DETAILED PREVIEW -->
+    <div id="report-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="max-w-2xl w-full glass-panel rounded-2xl p-6 sm:p-8 space-y-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between border-b border-white/10 pb-4">
+                <div class="font-mono font-bold text-white flex items-center space-x-2">
+                    <i class="fa-solid fa-shield-virus accent-color"></i>
+                    <span>SECURITY FINDING REPORT #001</span>
+                </div>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-white font-mono text-lg p-1">✕</button>
+            </div>
+
+            <div class="space-y-3 font-mono text-xs">
+                <div>
+                    <span class="text-gray-400">TITLE:</span>
+                    <span class="text-white font-bold ml-2">Exposed Legacy Management Service</span>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 border border-amber-500/40">SEVERITY: MEDIUM</span>
+                    <span class="text-gray-400">CVSS SCORE: 5.3</span>
+                </div>
+                <div>
+                    <div class="text-gray-400 mb-1">AFFECTED HOST:</div>
+                    <code class="px-2 py-1 rounded bg-black text-gray-300">192.168.1.105:8080 (Authorized Test Bed)</code>
+                </div>
+                <div>
+                    <div class="text-gray-400 mb-1">DETAILED ANALYSIS:</div>
+                    <p class="text-gray-300 leading-relaxed">
+                        During authorized automated and manual reconnaissance, port 8080 was identified as open. HTTP banner grabbing confirmed an unauthenticated administration panel endpoint listening on the interface.
+                    </p>
+                </div>
+                <div>
+                    <div class="text-gray-400 mb-1">REMEDIATION STEPS:</div>
+                    <ol class="list-decimal list-inside text-gray-300 space-y-1">
+                        <li>Bind management service exclusively to localhost (`127.0.0.1`).</li>
+                        <li>Implement UFW firewall rules: <code class="text-gray-400">sudo ufw deny 8080/tcp</code>.</li>
+                        <li>Enforce multi-factor authentication if remote management is required.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="pt-4 border-t border-white/10 text-right">
+                <button onclick="closeModal()" class="px-4 py-2 rounded-lg bg-[var(--primary)] text-black font-mono font-bold text-xs">
+                    CLOSE AUDIT PREVIEW
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* CANVAS BACKGROUND ANIMATION ENGINE */
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let currentFx = 'grid'; // 'grid', 'particles', 'radar'
+        let animationFrameId;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        function getPrimaryColor() {
+            return getComputedStyle(document.body).getPropertyValue('--primary').trim() || '#00ff66';
+        }
+
+        // FX 1: Cyber Grid
+        let gridOffset = 0;
+        function drawGrid() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = getPrimaryColor();
+            ctx.globalAlpha = 0.12;
+            ctx.lineWidth = 1;
+
+            const step = 40;
+            gridOffset = (gridOffset + 0.3) % step;
+
+            for (let x = 0; x < canvas.width; x += step) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, canvas.height);
+                ctx.stroke();
+            }
+
+            for (let y = gridOffset; y < canvas.height; y += step) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(canvas.width, y);
+                ctx.stroke();
+            }
+            ctx.globalAlpha = 1;
+        }
+
+        // FX 2: Particles
+        let particles = Array.from({ length: 45 }, () => ({
+            x: Math.random() * window.innerWidth,
+            y: Math.random() * window.innerHeight,
+            vx: (Math.random() - 0.5) * 0.8,
+            vy: (Math.random() - 0.5) * 0.8,
+            size: Math.random() * 2 + 1
+        }));
+
+        function drawParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = getPrimaryColor();
+            ctx.strokeStyle = getPrimaryColor();
+
+            particles.forEach((p, index) => {
+                p.x += p.vx;
+                p.y += p.vy;
+
+                if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+                ctx.globalAlpha = 0.6;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Connect nearby particles
+                for (let j = index + 1; j < particles.length; j++) {
+                    const p2 = particles[j];
+                    const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+                    if (dist < 120) {
+                        ctx.globalAlpha = (1 - dist / 120) * 0.25;
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.stroke();
+                    }
+                }
+            });
+            ctx.globalAlpha = 1;
+        }
+
+        // FX 3: Tactical Radar
+        let radarAngle = 0;
+        function drawRadar() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const cx = canvas.width / 2;
+            const cy = canvas.height / 2;
+            const radius = Math.min(cx, cy) * 0.8;
+
+            ctx.strokeStyle = getPrimaryColor();
+            ctx.globalAlpha = 0.15;
+            ctx.lineWidth = 1;
+
+            // Concentric Rings
+            [0.3, 0.6, 0.9].forEach(r => {
+                ctx.beginPath();
+                ctx.arc(cx, cy, radius * r, 0, Math.PI * 2);
+                ctx.stroke();
+            });
+
+            // Crosshairs
+            ctx.beginPath();
+            ctx.moveTo(cx - radius, cy); ctx.lineTo(cx + radius, cy);
+            ctx.moveTo(cx, cy - radius); ctx.lineTo(cx, cy + radius);
+            ctx.stroke();
+
+            // Sweep
+            radarAngle += 0.02;
+            ctx.globalAlpha = 0.3;
+            ctx.fillStyle = getPrimaryColor();
+            ctx.beginPath();
+            ctx.moveTo(cx, cy);
+            ctx.arc(cx, cy, radius * 0.9, radarAngle, radarAngle + 0.25);
+            ctx.closePath();
+            ctx.fill();
+            ctx.globalAlpha = 1;
+        }
+
+        function animateBg() {
+            if (currentFx === 'grid') drawGrid();
+            else if (currentFx === 'particles') drawParticles();
+            else if (currentFx === 'radar') drawRadar();
+
+            animationFrameId = requestAnimationFrame(animateBg);
+        }
+        animateBg();
+
+        function setBgFx(fx) {
+            currentFx = fx;
+            ['grid', 'particles', 'radar'].forEach(type => {
+                const btn = document.getElementById('btn-fx-' + type);
+                if (type === fx) {
+                    btn.className = "px-2 py-1 rounded bg-[var(--primary)]/20 accent-color";
+                } else {
+                    btn.className = "px-2 py-1 rounded text-gray-400 hover:text-white";
+                }
+            });
+        }
+
+        /* NAVIGATION SLIDE LOGIC */
+        function switchSection(secId) {
+            document.querySelectorAll('.slide-page').forEach(page => {
+                page.classList.remove('active');
+            });
+            const activePage = document.getElementById('sec-' + secId);
+            if (activePage) {
+                activePage.classList.add('active');
+            }
+
+            // Update Nav Buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                if (btn.getAttribute('data-target') === secId) {
+                    btn.classList.add('bg-[var(--primary)]/20', 'accent-color', 'border-[var(--primary)]');
+                } else {
+                    btn.classList.remove('bg-[var(--primary)]/20', 'accent-color', 'border-[var(--primary)]');
+                }
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        /* THEME SWITCHER */
+        function setTheme(theme) {
+            document.body.className = 'theme-' + theme + ' min-h-screen relative flex flex-col justify-between overflow-x-hidden select-none';
+        }
+
+        /* COPY EMAIL UTILITY */
+        function copyEmail() {
+            const email = "oishorzawkhandakar@gmail.com";
+            const textarea = document.createElement("textarea");
+            textarea.value = email;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand("copy");
+            document.body.removeChild(textarea);
+
+            const textSpan = document.getElementById("copy-text");
+            textSpan.textContent = "COPIED TO CLIPBOARD!";
+            setTimeout(() => {
+                textSpan.textContent = "COPY EMAIL";
+            }, 2000);
+        }
+
+        /* MODAL PREVIEW CONTROLS */
+        function openModal() {
+            document.getElementById('report-modal').classList.remove('hidden');
+        }
+        function closeModal() {
+            document.getElementById('report-modal').classList.add('hidden');
+        }
+
+        // Set Default Active Navigation Button
+        switchSection('summary');
+    </script>
+</body>
+</html>
